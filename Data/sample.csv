@@ -1,0 +1,9 @@
+Severity,Raise time,Clear time,Duration,System name,Impact,Component,Additional text,Description,Acknowledged,Annotation,Alarm type,Probable cause,Equipment type,Suppression Flag
+Critical,9/20/2018 10:18:32,9/20/18 10:22,0:03:29,BLRJYN-MCM-O-I614-01,Service-affecting,ETH10G-1-14-8,Laser Off Far End Failure Triggered,FEF_OCH,No,No,Equipment,Transmit Fail,100G MOTR | WL3n Extnd C-Band | 10xSFP+,No
+Critical,9/20/2018 10:18:32,9/20/18 10:22,0:03:29,BLRBID-MCN-O-I614-01,Service-affecting,ETH10G-3-14-8,Remote Fault,REM_FLT,No,No,Communication,Remote Fault,100G MOTR | WL3n Extnd C-Band | 10xSFP+,No
+Minor,9/20/2018 10:18:32,9/20/18 10:18,0:00:02,BLRJYN-MCM-O-I614-01,Non service-affecting,OPTMON-3-13-8,Gauge Threshold Crossing Alert Summary,T_TSUM_OTS,No,No,Performance,Threshold Crossed,ESAM | C-Band w/OSC | 1xSFP,No
+Critical,9/20/2018 10:18:32,9/20/18 10:18,0:00:02,BLRDME-MCM-O-I614-01,Service-affecting,OTM4-1-8-8,Loss Of Clock,RTCLK,No,No,Timing,Real Time Clock Failure,100G MOTR | WL3n Extnd C-Band | 10xSFP+,No
+Critical,9/20/2018 10:18:38,9/20/18 10:22,0:03:29,BLRVNG-MCN-O-I614-01,Service-affecting,ETH10G-2-11-21,Laser Off Far End Failure Triggered,FEF_OCH,No,No,Equipment,Transmit Fail,100G MOTR | WL3n Extnd C-Band | 10xSFP+,No
+Critical,9/20/2018 10:18:38,9/20/18 10:22,0:03:29,BLRAID-MCD-O-I614-01,Service-affecting,ETH10G-1-11-21,Remote Fault,REM_FLT,No,No,Communication,Remote Fault,100G MOTR | WL3n Extnd C-Band | 10xSFP+,No
+Minor,9/20/2018 10:18:38,9/20/18 10:18,0:00:02,BLRBID-MCN-O-I614-01,Non service-affecting,OPTMON-2-13-8,Gauge Threshold Crossing Alert Summary,T_TSUM_OTS,No,No,Performance,Threshold Crossed,ESAM | C-Band w/OSC | 1xSFP,No
+Critical,9/20/2018 10:18:38,9/20/18 10:18,0:00:02,BLRHLY-MCM-O-I614-01,Service-affecting,OTM4-3-6-1,Loss Of Clock,RTCLK,No,No,Timing,Real Time Clock Failure,100G MOTR | WL3n Extnd C-Band | 10xSFP+,No
