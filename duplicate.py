@@ -61,7 +61,7 @@ for i in range(0,systemName.shape[0]):
 
 #read log data from file and convert it to useable form
 #location = r'/home/dipak/Downloads/Final.csv'
-location = r'/home/dipak/Downloads/AlarmArchive1.csv'
+location = r'/home/dipak/Downloads/condi.csv'
 df = pd.read_csv(location)
 df = pd.DataFrame(df)
 df.iloc[:,12] = df.iloc[:,12].fillna(value = df.iloc[:,1])
@@ -73,6 +73,7 @@ df = df.reindex(cn, axis="columns")
 #select column from full data starting from 0iy
 select = [1,3,4,6,7,12]
 df = df.iloc[:,select]
+df = df.sort_values([('Raise time ( GMT )')])
 
 	#df.iloc[i,3] = df.iloc[i,2] + "-" + df.iloc[i,3]
 
@@ -86,8 +87,10 @@ for i in range(0,df.shape[0]):
 output = [ [ [[]] for temp1 in range(0,topology.shape[0])] for temp2 in range(0, pair+1)]
 #initilize start and end time
 dt = df.iloc[:,0]
+dt = dt.reset_index(drop=True)
 start = dt[0] + datetime.timedelta(seconds = -3) 
 end = dt[0] + datetime.timedelta(seconds = 0)
+terminate = dt[dt.shape[0]-1]
 #start = dt[0] + datetime.timedelta(seconds = -12000) 
 #end = dt[0] + datetime.timedelta(seconds = 12000)
 
@@ -110,7 +113,7 @@ end = dt[0] + datetime.timedelta(seconds = 0)
 #df = df[(df.iloc[:,4] == "Gauge Threshold Crossing Alert Summary") ]
 
 store = df
-while True:
+while (start <= terminate):
 	#time.sleep(2)
 	window = df[(( df.iloc[:,0] < end ) & ( df.iloc[:,0] >= start))]
 	start = start + datetime.timedelta(seconds = 1) 
