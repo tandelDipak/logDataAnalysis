@@ -4,7 +4,9 @@ import numpy as np
 import datetime
 import time
 import csv
+import time
 
+start_time = time.time()
 
 location = r'/home/dipak/Downloads/topology.csv'
 topology = pd.read_csv(location)
@@ -12,11 +14,10 @@ topology = pd.DataFrame(topology)
 
 resultFyle = open("TRY.csv",'w')
 wr = csv.writer(resultFyle, dialect='excel')
-resultFyle1 = open("TRY1.csv",'w')
-wr1 = csv.writer(resultFyle1, dialect='excel')
 
 #change system name with short  name : use one another file 
 
+#@@@@@@@@@@@@@@@@@chnage it and also generate output for a removal run program separately for each error 
 l = [3,5,7,9,11]
 r = [4,6,8,10,12]
 col = topology.shape[1]
@@ -61,7 +62,7 @@ for i in range(0,systemName.shape[0]):
 
 #read log data from file and convert it to useable form
 #location = r'/home/dipak/Downloads/Final.csv'
-location = r'/home/dipak/Downloads/condi.csv'
+location = r'/home/dipak/Downloads/ori.csv'
 df = pd.read_csv(location)
 df = pd.DataFrame(df)
 df.iloc[:,12] = df.iloc[:,12].fillna(value = df.iloc[:,1])
@@ -73,7 +74,7 @@ df = df.reindex(cn, axis="columns")
 #select column from full data starting from 0iy
 select = [1,3,4,6,7,12]
 df = df.iloc[:,select]
-df = df.sort_values([('Raise time ( GMT )')])
+df = df.sort_values(['Raise time ( GMT )'])
 
 	#df.iloc[i,3] = df.iloc[i,2] + "-" + df.iloc[i,3]
 
@@ -116,10 +117,10 @@ store = df
 while (start <= terminate):
 	#time.sleep(2)
 	window = df[(( df.iloc[:,0] < end ) & ( df.iloc[:,0] >= start))]
-	start = start + datetime.timedelta(seconds = 1) 
+	start = start + datetime.timedelta(seconds = 1)
 	end = end + datetime.timedelta(seconds = 1)
-	print("##########",start,"##########")
-	print("##########",end,"##########")
+	#print("##########",start,"##########")
+	#print("##########",end,"##########")
 	#print(window.iloc[:,0:4])
 	#print("")
 	for i, card in zip(list(range(0,pair)), l):
@@ -134,7 +135,7 @@ while (start <= terminate):
 			available = port  in group[i]
 			#print(available)
 			if available:
-				mark[i].update({port:[1,row[0].strftime('%d/%m/%y %H:%M:%S'),row[1],row[2],row[4],row[5]]})
+				mark[i].update({port:[1,row[0].strftime('%d/%m/%y %H:%M:%S'),row[1].strftime('%d/%m/%y %H:%M:%S'),row[2],row[4],row[5]]})
 				#print(port,end = " : ")
 				#print(mark[i][port])
 				#print(row)
@@ -158,9 +159,9 @@ while (start <= terminate):
 						#@print("Start COndi0")
 						repeat1 = output[i][fiber][1]
 						repeat2 = output[i][fiber][2]
-						#print("Removed repeated value")
-						#print(repeat1)
-						#print(repeat2)
+						print("Removed_two_repeated_value")
+						print(str(repeat1[2]),str(repeat1[3]),str(repeat1[4]),str(i),str(repeat1[5]),str(repeat1[6]))
+						print(str(repeat2[2]),str(repeat2[3]),str(repeat2[4]),str(i),str(repeat2[5]),str(repeat2[6]))
 						output[i][fiber].remove(repeat1)
 						output[i][fiber].remove(repeat2)
 						#@print("End COndi0")
@@ -170,15 +171,15 @@ while (start <= terminate):
 					if(((output[i][fiber][2][3] == 1) & (output[i][fiber][2][4] == 1)) & ( (output[i][fiber][3][3] == 1) & (output[i][fiber][3][4] == 1) ) & (output[i][fiber][1][3] != output[i][fiber][1][4])):
 						#@print("Start COndi2")
 						repeat = output[i][fiber][1]
-						#print("Removed repeated value")
-						#print(repeat)
+						print("Removed_one_repeated_value")
+						print(str(repeat[2]),str(repeat[3]),str(repeat[4]),str(i),str(repeat[5]),str(repeat[6]))
 						output[i][fiber].remove(repeat)
 						#@print("End COndi1")
 				if((len(output[i][fiber]) >= 4)):
 						before = len(output[i][fiber])
 						#print(before, end = " ")
 						mem = [1,2,3]
-						#print("***************Start processing********")
+						print("***********Start_processing********")
 						choose = 0
 						for filtered in mem:
 							if(((output[i][fiber][filtered][3] == 0) & (output[i][fiber][filtered][4] == 1)) | ((output[i][fiber][filtered][3] == 1) & (output[i][fiber][filtered][4] == 0))):
@@ -188,6 +189,7 @@ while (start <= terminate):
 									choose = filtered
 						#temp
 						#print(output[i][fiber][choose])
+						print(str(output[i][fiber][choose][2]),str(output[i][fiber][choose][3]),str(output[i][fiber][choose][4]),str(i),str(output[i][fiber][choose][5]),str(output[i][fiber][choose][6]))
 						#print("Output this++++++++++++++++++++++++")
 						if((output[i][fiber][choose][3] == 1) & (output[i][fiber][choose][4] == 0) ):
 							ohh = [str(output[i][fiber][choose][2]),str(output[i][fiber][choose][5][1]),str(output[i][fiber][choose][5][2]),str(output[i][fiber][choose][5][3]),str(output[i][fiber][choose][5][4]),str(i),str(fiber)]
@@ -198,17 +200,18 @@ while (start <= terminate):
 							wr.writerow(ohh)
 							#print("leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
 						if((output[i][fiber][choose][3] == 1) & (output[i][fiber][choose][4] == 1) ):
-							ohh = [str(output[i][fiber][choose][2]),str(output[i][fiber][choose][6][1]),str(output[i][fiber][choose][6][2]),str(output[i][fiber][choose][6][3]),str(output[i][fiber][choose][6][4]),str(i),str(fiber)]
+							ohh = [str(output[i][fiber][choose][2]),str(output[i][fiber][choose][6][1]),str(output[i][fiber][choose][6][2]),str("Both"),str(output[i][fiber][choose][6][4]),str(i),str(fiber)]
 							wr.writerow(ohh)
 							#print("leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee !!!!!! both")
 						for filtered in mem:
 							#print(filtered) 
 							value = output[i][fiber][1]
 							if filtered == 3:
-								#print(value, end = " ")
+								#print(value)
+								print(str(value[2]),str(value[3]),str(value[4]),str(i),str(value[5]),str(value[6]))
 								dgdg = 1
 							else:
-								#print(value)
+								print(str(value[2]),str(value[3]),str(value[4]),str(i),str(value[5]),str(value[6]))
 								dgdg = 1
 							output[i][fiber].remove(value)
 						after = len(output[i][fiber])
@@ -226,7 +229,7 @@ while (start <= terminate):
 							before = len(output[i][fiber])
 							#print(before, end = " ")
 							mem = [1,2,3]
-							#print("***************Start processing********")
+							print("************Start_processing********")
 							choose = 0
 							for filtered in mem:
 								if(((output[i][fiber][filtered][3] == 0) & (output[i][fiber][filtered][4] == 1)) | ((output[i][fiber][filtered][3] == 1) & (output[i][fiber][filtered][4] == 0))):
@@ -236,6 +239,7 @@ while (start <= terminate):
 										choose = filtered
 							#temp
 							#print(output[i][fiber][choose])
+							print(str(output[i][fiber][choose][2]),str(output[i][fiber][choose][3]),str(output[i][fiber][choose][4]),str(i),str(output[i][fiber][choose][5]),str(output[i][fiber][choose][6]))
 							#print("Output this++++++++++++++++++++++++")
 							if((output[i][fiber][choose][3] == 1) & (output[i][fiber][choose][4] == 0) ):
 								ohh = [str(output[i][fiber][choose][2]),str(output[i][fiber][choose][5][1]),str(output[i][fiber][choose][5][2]),str(output[i][fiber][choose][5][3]),str(output[i][fiber][choose][5][4]),str(i),str(fiber)]
@@ -246,17 +250,17 @@ while (start <= terminate):
 								wr.writerow(ohh)
 								#print("leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
 							if((output[i][fiber][choose][3] == 1) & (output[i][fiber][choose][4] == 1) ):
-								ohh = [str(output[i][fiber][choose][2]),str(output[i][fiber][choose][6][1]),str(output[i][fiber][choose][6][2]),str(output[i][fiber][choose][6][3]),str(output[i][fiber][choose][6][4]),str(i),str(fiber)]
+								ohh = [str(output[i][fiber][choose][2]),str(output[i][fiber][choose][6][1]),str(output[i][fiber][choose][6][2]),str("Both"),str(output[i][fiber][choose][6][4]),str(i),str(fiber)]
 								wr.writerow(ohh)
 								#print("leeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee !!!!!! both")
 							for filtered in mem:
 								#print(filtered)
 								value = output[i][fiber][1]
 								if filtered == 3:
-									#print(value, end = " ")
+									print(str(value[2]),str(value[3]),str(value[4]),str(i),str(value[5]),str(value[6]))
 									dgdg = 1
 								else:
-									#print(value)
+									print(str(value[2]),str(value[3]),str(value[4]),str(i),str(value[5]),str(value[6]))
 									dgdg = 1
 								output[i][fiber].remove(value)
 							#print("VALUE OF OHH IS ",ohh)
@@ -270,3 +274,32 @@ while (start <= terminate):
 
 
 resultFyle.close()
+
+location = r'/home/dipak/environments/TRY.csv'
+colnames=['a','b','c','d','e','f','g']
+df = pd.read_csv(location, names=colnames, header=None)
+df = pd.DataFrame(df)
+df.iloc[:,1] = pd.to_datetime(df.iloc[:,1])
+df = df.sort_values(['a','e','b'])
+
+se =( df['e'] == 'as')
+present = df.iloc[0,:]
+t = df.iloc[0,1]
+for index, row in df.iterrows():
+	#print(row,present)
+	#print((present['a'] != row['a']),(present['a'] == row['a']) ,(present['e'] == row['e']) , ((present['b'] + datetime.timedelta(seconds = 2)) <= row['b']))
+	if(present['a'] != row['a']):
+		se[index] = True
+		present = row
+	elif((present['a'] == row['a']) & (present['e'] == row['e']) & ((present['b'] + datetime.timedelta(seconds = 2)) >= row['b'])):
+		se[index] = False
+	else:
+		se[index] = True
+		present = row
+	pass
+
+se.iloc[0] = True
+#se.sort_index(axis=0)
+output = df[se].sort_index(axis=0)
+output.to_csv("p2.csv")
+print("--- %s seconds ---" % (time.time() - start_time))
